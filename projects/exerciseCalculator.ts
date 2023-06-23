@@ -72,15 +72,17 @@ const calculateExercises = (
   return result;
 };
 
-try {
-  const { target, dailyHours } = parseArguments(process.argv)
-  console.log(calculateExercises(dailyHours, target))
-} catch (error: unknown) {
-  let errorMessage = "Something bad happened.";
-  if (error instanceof Error) {
-    errorMessage += " Error: " + error.message;
-  }
-  console.log(errorMessage);
+if (require.main === module) {
+    try {
+        const { target, dailyHours } = parseArguments(process.argv);
+        console.log(calculateExercises(dailyHours, target));
+    } catch (error: unknown) {
+        let errorMessage = "Something bad happened.";
+        if (error instanceof Error) {
+        errorMessage += " Error: " + error.message;
+        }
+        console.log(errorMessage);
+    }
 }
 
 export default calculateExercises

@@ -51,15 +51,17 @@ const calculateBmi = (height: number, weight: number): string => {
   return bmiCategory
 }
 
-try {
-  const { height: value1, weight: value2 } = parseArguments(process.argv)
-  console.log(calculateBmi(value1, value2))
-} catch (error: unknown) {
-  let errorMessage = "Something bad happened."
-  if (error instanceof Error) {
-    errorMessage += " Error: " + error.message
-  }
-  console.log(errorMessage)
+if (require.main === module) {
+    try {
+    const { height: value1, weight: value2 } = parseArguments(process.argv)
+    console.log(calculateBmi(value1, value2))
+    } catch (error: unknown) {
+    let errorMessage = "Something bad happened."
+    if (error instanceof Error) {
+        errorMessage += " Error: " + error.message
+    }
+    console.log(errorMessage)
+    }
 }
 
 export default calculateBmi
