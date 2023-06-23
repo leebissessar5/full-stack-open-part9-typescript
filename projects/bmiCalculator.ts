@@ -61,3 +61,5 @@ try {
   }
   console.log(errorMessage)
 }
+
+export default calculateBmi
