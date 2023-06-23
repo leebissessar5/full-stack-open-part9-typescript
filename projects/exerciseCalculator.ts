@@ -14,27 +14,27 @@ interface Result {
 }
 
 const parseArguments = (args: string[]): ExerciseValues => {
-  if (args.length < 4) throw new Error("Not enough arguments")
-  if (args.length > 4) throw new Error("Too many arguments")
+  if (args.length < 4) throw new Error("Not enough arguments");
+  if (args.length > 4) throw new Error("Too many arguments");
 
-  let target: number = Number(args[2])
+  const target = Number(args[2]);
 
   if (isNaN(target)) {
-    throw new Error('First argument must be a number!')
+    throw new Error('First argument must be a number!');
   }
 
-  const dailyHoursArg: string = args[3]
-  const dailyHours: number[] = JSON.parse(dailyHoursArg)
+  const dailyHoursArg: string = args[3];
+  const dailyHours: number[] = JSON.parse(dailyHoursArg) as number[];
 
   if (!Array.isArray(dailyHours) || dailyHours.some((val) => isNaN(val))) {
-    throw new Error('Fourth argument must be a valid number array!')
+    throw new Error('Fourth argument must be a valid number array!');
   }
 
   return {
     target,
     dailyHours
-  }
-}
+  };
+};
 
 const calculateExercises = (
   dailyHours: number[],
@@ -48,7 +48,7 @@ const calculateExercises = (
     Math.round((trainingDays / periodLength) *
     (totalHours / (targetHours * periodLength)) *
     5);
-  let ratingDescription: string = "";
+  let ratingDescription = "";
 
   if (rating >= 4) {
     ratingDescription = "Great job! You achieved your target.";
@@ -85,4 +85,4 @@ if (require.main === module) {
     }
 }
 
-export default calculateExercises
+export default calculateExercises;
