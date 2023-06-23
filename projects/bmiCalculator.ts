@@ -1,6 +1,6 @@
 interface BMIValues {
-    value1: number,
-    value2: number
+    height: number,
+    weight: number
 }
 
 const parseArguments = (args: string[]): BMIValues => {
@@ -9,8 +9,8 @@ const parseArguments = (args: string[]): BMIValues => {
 
   if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
     return {
-      value1: Number(args[2]),
-      value2: Number(args[3]),
+      height: Number(args[2]),
+      weight: Number(args[3]),
     }
   } else {
     throw new Error('Provided values were not numbers!')
@@ -52,7 +52,7 @@ const calculateBmi = (height: number, weight: number): string => {
 }
 
 try {
-  const { value1, value2 } = parseArguments(process.argv)
+  const { height: value1, weight: value2 } = parseArguments(process.argv)
   console.log(calculateBmi(value1, value2))
 } catch (error: unknown) {
   let errorMessage = "Something bad happened."
