@@ -1,6 +1,6 @@
 interface ExerciseValues {
   target: number
-  dailyHours: number[]
+  dailyExercises: number[]
 }
 
 interface Result {
@@ -32,21 +32,21 @@ const parseArguments = (args: string[]): ExerciseValues => {
 
   return {
     target,
-    dailyHours
+    dailyExercises: dailyHours
   };
 };
 
 const calculateExercises = (
-  dailyHours: number[],
-  targetHours: number
+  dailyExercises: number[],
+  target: number
 ): Result => {
-  const periodLength: number = dailyHours.length;
-  const trainingDays: number = dailyHours.filter((val) => val !== 0).length;
-  const totalHours: number = dailyHours.reduce((a, b) => a + b, 0);
+  const periodLength: number = dailyExercises.length;
+  const trainingDays: number = dailyExercises.filter((val) => val !== 0).length;
+  const totalHours: number = dailyExercises.reduce((a, b) => a + b, 0);
   const average: number = totalHours / periodLength;
   const rating: number =
     Math.round((trainingDays / periodLength) *
-    (totalHours / (targetHours * periodLength)) *
+    (totalHours / (target * periodLength)) *
     5);
   let ratingDescription = "";
 
@@ -65,7 +65,7 @@ const calculateExercises = (
     success: rating > 2,
     rating,
     ratingDescription,
-    target: targetHours,
+    target,
     average,
   };
 
@@ -74,7 +74,7 @@ const calculateExercises = (
 
 if (require.main === module) {
     try {
-        const { target, dailyHours } = parseArguments(process.argv);
+        const { target, dailyExercises: dailyHours } = parseArguments(process.argv);
         console.log(calculateExercises(dailyHours, target));
     } catch (error: unknown) {
         let errorMessage = "Something bad happened.";
