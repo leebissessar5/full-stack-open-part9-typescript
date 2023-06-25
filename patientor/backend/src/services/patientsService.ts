@@ -1,5 +1,5 @@
 import patientsData from '../../data/patients';
-import { Patient, NonSensitivePatientEntry, Gender } from '../types';
+import { Patient, NonSensitivePatientEntry, NewPatientEntry } from '../types';
 import { v1 as uuid } from 'uuid';
 
 
@@ -17,16 +17,12 @@ const getNonSensitiveEntries = (): NonSensitivePatientEntry[] => {
     }));
 };
 
-const addEntry = (name: string, dateOfBirth: string, ssn: string, gender: Gender, occupation: string) : Patient => {
+const addEntry = (entry : NewPatientEntry) : Patient => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const newId: string = uuid() as string;
+    const newId: string = uuid();
     const newPatientEntry = {
         id: newId,
-        name,
-        dateOfBirth,
-        ssn,
-        gender,
-        occupation
+        ...entry
     };
 
     patientsData.push(newPatientEntry);
