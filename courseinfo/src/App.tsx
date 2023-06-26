@@ -69,7 +69,7 @@ const Part = (props: PartProps): JSX.Element => {
             <>
               <div>
                 <i>{coursePart.description}</i>
-                <div>{`submit to: ${coursePart.backgroundMaterial}`}</div>
+                <div>{`see: ${coursePart.backgroundMaterial}`}</div>
               </div>
             </>
           );
