@@ -35,11 +35,14 @@ const  App = () => {
   return (
     <div className="App">
       <h2>Add new entry</h2>
-      {error && <div style={{color: "red", }}>{error}</div>}
+      {error && <div style={{ color: "red" }}>{error}</div>}
       <form onSubmit={diaryCreation}>
         <div>
           date
           <input
+            type="date"
+            min="2009-01-01"
+            max="2022-12-31"
             value={newDiary.date}
             onChange={(event) =>
               setNewDiary({
@@ -51,27 +54,43 @@ const  App = () => {
         </div>
         <div>
           weather
-          <input
-            value={newDiary.weather}
-            onChange={(event) =>
-              setNewDiary({
-                ...newDiary,
-                weather: event.target.value,
-              } as NewDiaryEntry)
-            }
-          />
+            {Object.values(Weather).map((value) => (
+              <label key={value}>
+                <input
+                  type="radio"
+                  name="weather"
+                  value={value}
+                  checked={newDiary.weather === value}
+                  onChange={(event) =>
+                    setNewDiary({
+                      ...newDiary,
+                      weather: event.target.value as Weather,
+                    })
+                  }
+                />
+                {value}
+              </label>
+            ))}
         </div>
         <div>
           visibility
-          <input
-            value={newDiary.visibility}
-            onChange={(event) =>
-              setNewDiary({
-                ...newDiary,
-                visibility: event.target.value,
-              } as NewDiaryEntry)
-            }
-          />
+            {Object.values(Visibility).map((value) => (
+              <label key={value}>
+                <input
+                  type="radio"
+                  name="visibility"
+                  value={value}
+                  checked={newDiary.visibility === value}
+                  onChange={(event) =>
+                    setNewDiary({
+                      ...newDiary,
+                      visibility: event.target.value as Visibility,
+                    })
+                  }
+                />
+                {value}
+              </label>
+            ))}
         </div>
         <div>
           comment
