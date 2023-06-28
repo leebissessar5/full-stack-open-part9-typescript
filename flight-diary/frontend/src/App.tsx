@@ -1,40 +1,40 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios';
 import { DiaryEntry, NewDiaryEntry, Weather, Visibility } from './types';
 
 const  App = () => {
-  const [notes, setNotes] = useState<DiaryEntry[]>([
-    { 
-      id: 1, 
-      date: "2023-2-2",
-     weather: Weather.Sunny,
-    visibility: Visibility.Great,
-    comment: "hot!" 
-    }
-  ]);
-  const [newNote, setNewNote] = useState<NewDiaryEntry>({} as NewDiaryEntry);
+  const [diaries, setDiaries] = useState<DiaryEntry[]>([{} as DiaryEntry]);
+  const [newDiary, setNewDiary] = useState<NewDiaryEntry>({} as NewDiaryEntry);
+
+  useEffect(() => {
+    axios.get<DiaryEntry[]>("http://localhost:3001/api/diaries").then((response) => {
+      setDiaries(response.data);
+    });
+  }, []);
 
 
-  const noteCreation = (event: React.SyntheticEvent) => {
+  const diaryCreation = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    const noteToAdd = {
-      ...newNote,
-      id: notes.length + 1,
-    };
-    setNotes(notes.concat(noteToAdd as DiaryEntry));
-    setNewNote({} as NewDiaryEntry);
+    axios
+      .post<DiaryEntry>("http://localhost:3001/api/diaries", { ...newDiary })
+      .then((response) => {
+        setDiaries(diaries.concat(response.data));
+      });
+    
+    setNewDiary({} as NewDiaryEntry);
   };
 
   return (
     <div className="App">
       <h2>Add new entry</h2>
-      <form onSubmit={noteCreation}>
+      <form onSubmit={diaryCreation}>
         <div>
           date
           <input
-            value={newNote.date}
+            value={newDiary.date}
             onChange={(event) =>
-              setNewNote({
-                ...newNote,
+              setNewDiary({
+                ...newDiary,
                 date: event.target.value,
               } as NewDiaryEntry)
             }
@@ -43,10 +43,10 @@ const  App = () => {
         <div>
           weather
           <input
-            value={newNote.weather}
+            value={newDiary.weather}
             onChange={(event) =>
-              setNewNote({
-                ...newNote,
+              setNewDiary({
+                ...newDiary,
                 weather: event.target.value,
               } as NewDiaryEntry)
             }
@@ -55,10 +55,10 @@ const  App = () => {
         <div>
           visibility
           <input
-            value={newNote.visibility}
+            value={newDiary.visibility}
             onChange={(event) =>
-              setNewNote({
-                ...newNote,
+              setNewDiary({
+                ...newDiary,
                 visibility: event.target.value,
               } as NewDiaryEntry)
             }
@@ -67,10 +67,10 @@ const  App = () => {
         <div>
           comment
           <input
-            value={newNote.comment}
+            value={newDiary.comment}
             onChange={(event) =>
-              setNewNote({
-                ...newNote,
+              setNewDiary({
+                ...newDiary,
                 comment: event.target.value,
               } as NewDiaryEntry)
             }
@@ -80,11 +80,11 @@ const  App = () => {
       </form>
       <h2>Diary entries</h2>
       <ul style={{ margin: 0, padding: 0 }}>
-        {notes.map((note) => (
-          <div key={note.id}>
-            <h3>{note.date}</h3>
-            <div>weather: {note.weather}</div>
-            <div>visibility: {note.visibility}</div>
+        {diaries && diaries.map((diary) => (
+          <div key={diary.id}>
+            <h3>{diary.date}</h3>
+            <div>weather: {diary.weather}</div>
+            <div>visibility: {diary.visibility}</div>
           </div>
         ))}
       </ul>
