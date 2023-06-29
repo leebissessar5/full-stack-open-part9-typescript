@@ -1,6 +1,6 @@
 import express from 'express';
 import patientsService from '../services/patientsService';
-import { NonSensitivePatientEntry } from '../types';
+import { NonSensitivePatientEntry, Patient } from '../types';
 import toNewPatientEntry from '../utils';
 
 const router = express.Router();
@@ -8,6 +8,11 @@ const router = express.Router();
 router.get('/', (_req, res) => {
     const data: NonSensitivePatientEntry[] = patientsService.getNonSensitiveEntries();
     res.json(data);
+});
+
+router.get('/:id', (req, res) => {
+    const data: Patient = patientsService.getEntry(req.params.id) as Patient;
+    return data ? res.json(data) : res.json({ error: "Patient not found" });
 });
 
 router.post('/', (req, res) => {
