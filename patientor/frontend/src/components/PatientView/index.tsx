@@ -1,11 +1,11 @@
 import { useMatch } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Box } from "@mui/system";
 import MaleIcon from "@mui/icons-material/Male";
 import FemaleIcon from "@mui/icons-material/Female";
 import { Diagnosis, Patient } from "../../types";
 import patientService from "../../services/patients";
 import diagnosisService from "../../services/diagnoses";
+import EntryDetails from "./EntryDetails";
 
 const PatientView = () => {
     const match = useMatch("/patients/:id");
@@ -37,13 +37,6 @@ const PatientView = () => {
     genderIcon = <FemaleIcon />;
     }
 
-    const getDiagnosisName = (code: string) => {
-        const diagnosis = diagnoses.find(
-        (diagnosis) => diagnosis.code === code
-        );
-        return diagnosis ? diagnosis.name : "";
-    };
-
     return (
         <div>
         <h1>
@@ -55,17 +48,11 @@ const PatientView = () => {
         <div>
             {patient.entries.map((entry, idx) => {
                 return (
-                <div key={idx}>
-                    <div>
-                    {entry.date} <i>{entry.description}</i>
-                    </div>
-                    <ul>
-                        {entry.diagnosisCodes 
-                        && entry.diagnosisCodes.map((code, idx) => {
-                            return <li key={idx}>{code} {getDiagnosisName(code)}</li>
-                        })}
-                    </ul>
-                </div>
+                    <EntryDetails
+                      key={idx}
+                      entry={entry}
+                      diagnoses={diagnoses}
+                    />
                 );
             })}
         </div>
