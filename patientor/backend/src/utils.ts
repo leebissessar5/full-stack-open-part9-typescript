@@ -1,4 +1,4 @@
-import { Gender, NewPatientEntry } from "./types";
+import { Entry, Gender, NewPatientEntry } from "./types";
 
 const isDate = (date: string): boolean => {
     return Boolean(Date.parse(date));
@@ -47,6 +47,34 @@ const parseOccupation = (occupation: unknown): string => {
     return occupation;
 };
 
+const parseEntries = (entries: unknown): Entry[] => {
+  if (!Array.isArray(entries)) {
+    throw new Error("Incorrect or missing entries");
+  }
+
+  // Assert that each entry in the array is of type Entry
+  entries.forEach((entry) => {
+    if (!isEntry(entry)) {
+      throw new Error("Invalid entry");
+    }
+  });
+
+  return entries as Entry[];
+};
+
+// Helper function to check if an object is of type Entry
+const isEntry = (entry: unknown): entry is Entry => {
+  return (
+    typeof entry === "object" &&
+    entry !== null &&
+    ("type" in entry) &&
+    (entry.type === "Hospital" ||
+      entry.type === "OccupationalHealthcare" ||
+      entry.type === "HealthCheck")
+  );
+};
+
+
 const toNewPatientEntry = (object: unknown): NewPatientEntry => {
     if (!object || typeof object !== 'object') {
         throw new Error('Incorrect or missing data');
@@ -56,14 +84,15 @@ const toNewPatientEntry = (object: unknown): NewPatientEntry => {
     && 'dateOfBirth' in object 
     && 'ssn' in object 
     && 'gender' in object 
-    && 'occupation' in object) {
+    && 'occupation' in object
+    && 'entries' in object) {
         const newEntry: NewPatientEntry = {
             name: parseName(object.name),
             dateOfBirth: parseDate(object.dateOfBirth),
             ssn: parseSSN(object.ssn),
             gender: parseGender(object.gender),
             occupation: parseOccupation(object.occupation),
-            entries: [],
+            entries: parseEntries(object.entries),
         };
 
         return newEntry;
