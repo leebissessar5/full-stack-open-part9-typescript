@@ -3,6 +3,8 @@ Course hosted by the Department of Computer Science at the University of Helsink
 
 Main repository for Parts 1-7 located [here](https://github.com/leebissessar5/full-stack-open).
 
+[Course Certificate](https://studies.cs.helsinki.fi/stats/api/certificate/fs-typescript/en/a3fb8173016fb4fa98a4e4ba46afff2f)
+
 ## Part 9
 This part is all about TypeScript: an open-source typed superset of JavaScript developed by Microsoft that compiles to plain JavaScript.
 
