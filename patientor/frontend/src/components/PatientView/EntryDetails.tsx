@@ -5,24 +5,23 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 const EntryDetails: React.FC<{entry: Entry, diagnoses: Diagnosis[]}> = ({ entry, diagnoses }) => {
 
     const SpecificToEntry = (entry: Entry) => {
-    switch (entry.type) {
-        case "Hospital":
-        return <HospitalEntryDetails entry={entry} />;
-        case "OccupationalHealthcare":
-        return <OccupationalHealthcareEntryDetails entry={entry} />;
-        case "HealthCheck":
-        return <HealthCheckEntryDetails entry={entry} />;
-        default:
-        throw new Error(
-            `Unhandled discriminated union member: ${JSON.stringify(entry)}`
-        );
-    }
+      switch (entry.type) {
+          case "Hospital":
+            return <HospitalEntryDetails entry={entry} />;
+          case "OccupationalHealthcare":
+            return <OccupationalHealthcareEntryDetails entry={entry} />;
+          case "HealthCheck":
+            return <HealthCheckEntryDetails entry={entry} />;
+          default:
+            throw new Error(
+                `Unhandled discriminated union member: ${JSON.stringify(entry)}`
+            );
+      }
     };
 
     const getDiagnosisName = (code: string) => {
-        const diagnosis = diagnoses.find(
-        (diagnosis) => diagnosis.code === code
-        );
+        const diagnosis = diagnoses
+        .find((diagnosis) => diagnosis.code === code);
         return diagnosis ? diagnosis.name : "";
     };
 
@@ -40,11 +39,14 @@ const EntryDetails: React.FC<{entry: Entry, diagnoses: Diagnosis[]}> = ({ entry,
         <ul>
           {entry.diagnosisCodes &&
             entry.diagnosisCodes.map((code, idx) => {
-              return (
-                <li key={idx}>
-                  {code} {getDiagnosisName(code)}
-                </li>
-              );
+              if (code) {
+                return (
+                  <li key={idx}>
+                    {code} {getDiagnosisName(code)}
+                  </li>
+                );
+              }
+              else return null;
             })}
         </ul>
         {SpecificToEntry(entry)}

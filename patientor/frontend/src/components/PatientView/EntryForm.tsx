@@ -1,9 +1,10 @@
 import { Box } from "@mui/system";
-import { TextField, Button, Alert } from "@mui/material";
+import { TextField, Button, Alert, Input, InputLabel } from "@mui/material";
 import { useState } from "react";
 import { EntryWithoutId } from "../../types";
 import patientService from "../../services/patients";
 import { AxiosError } from "axios";
+
 
 const EntryForm: React.FC<{ patientId: string, type: string; callback: Function }> = ({
   patientId,
@@ -88,10 +89,9 @@ const EntryForm: React.FC<{ patientId: string, type: string; callback: Function 
       case "Hospital":
         return (
           <Box display={"flex"} flexDirection={"column"} rowGap={"20px"}>
-            <TextField
-              fullWidth
-              label="Discharge Date"
-              variant="outlined"
+            <InputLabel>Discharge Date</InputLabel>
+            <Input
+              type="date"
               value={dischargeDate}
               onChange={(e) => setDischargeDate(e.target.value)}
             />
@@ -114,17 +114,15 @@ const EntryForm: React.FC<{ patientId: string, type: string; callback: Function 
               value={employerName}
               onChange={(e) => setEmployerName(e.target.value)}
             />
-            <TextField
-              fullWidth
-              label="Sick Leave Start Date"
-              variant="outlined"
+            <InputLabel>Sick Leave Start Date</InputLabel>
+            <Input
+              type="date"
               value={sickLeaveStartDate}
               onChange={(e) => setSickLeaveStartDate(e.target.value)}
             />
-            <TextField
-              fullWidth
-              label="Sick Leave End Date"
-              variant="outlined"
+            <InputLabel>Sick Leave End Date</InputLabel>
+            <Input
+              type="date"
               value={sickLeaveEndDate}
               onChange={(e) => setSickLeaveEndDate(e.target.value)}
             />
@@ -157,11 +155,7 @@ const EntryForm: React.FC<{ patientId: string, type: string; callback: Function 
       flexDirection={"column"}
       rowGap={"20px"}
     >
-      {error && (
-        <Alert severity="error">
-          {error}
-        </Alert>
-      )}
+      {error && <Alert severity="error">{error}</Alert>}
       <TextField
         fullWidth
         label="Description"
@@ -169,10 +163,9 @@ const EntryForm: React.FC<{ patientId: string, type: string; callback: Function 
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <TextField
-        fullWidth
-        label="Date"
-        variant="outlined"
+      <InputLabel>Date</InputLabel>
+      <Input
+        type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
       />
