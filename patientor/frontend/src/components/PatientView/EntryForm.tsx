@@ -1,5 +1,16 @@
 import { Box } from "@mui/system";
-import { TextField, Button, Alert, Input, InputLabel } from "@mui/material";
+import { 
+    TextField, 
+    Button, 
+    Alert, 
+    Input, 
+    InputLabel, 
+    FormControl, 
+    FormControlLabel,
+    FormLabel, 
+    Radio, 
+    RadioGroup 
+} from "@mui/material";
 import { useState } from "react";
 import { EntryWithoutId } from "../../types";
 import patientService from "../../services/patients";
@@ -130,13 +141,36 @@ const EntryForm: React.FC<{ patientId: string, type: string; callback: Function 
         );
       case "HealthCheck":
         return (
-          <TextField
-            fullWidth
-            label="Health Check Rating"
-            variant="outlined"
-            value={healthCheckRating}
-            onChange={(e) => setHealthCheckRating(e.target.value)}
-          />
+          //   <TextField
+          //     fullWidth
+          //     label="Health Check Rating"
+          //     variant="outlined"
+          //     value={healthCheckRating}
+          //     onChange={(e) => setHealthCheckRating(e.target.value)}
+          //   />
+          <FormControl>
+            <FormLabel>
+              Health Check Rating
+            </FormLabel>
+            <RadioGroup row defaultValue="1">
+              <FormControlLabel value="1" control={<Radio />} label="Healthy" />
+              <FormControlLabel
+                value="2"
+                control={<Radio />}
+                label="Low Risk"
+              />
+              <FormControlLabel
+                value="3"
+                control={<Radio />}
+                label="High Risk"
+              />
+              <FormControlLabel
+                value="4"
+                control={<Radio />}
+                label="Critical Risk"
+              />
+            </RadioGroup>
+          </FormControl>
         );
       default:
         throw new Error(
