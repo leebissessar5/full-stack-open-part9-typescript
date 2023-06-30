@@ -9,24 +9,44 @@ import {
     FormControlLabel,
     FormLabel, 
     Radio, 
-    RadioGroup 
+    RadioGroup, 
+    FormGroup,
+    Checkbox
 } from "@mui/material";
 import { useState } from "react";
-import { EntryWithoutId } from "../../types";
+import { Diagnosis, EntryWithoutId } from "../../types";
 import patientService from "../../services/patients";
 import { AxiosError } from "axios";
 
 
-const EntryForm: React.FC<{ patientId: string, type: string; callback: Function }> = ({
+const EntryForm: React.FC<{ patientId: string, type: string; callback: Function, diagnoses: Diagnosis[] }> = ({
   patientId,
   type,
   callback,
+  diagnoses
 }) => {
+    const [diagnosisCodes, setDiagnosisCodes] = useState<string[]>([]);
+
+    const handleDiagnosisCodeChange = (code: string) => {
+      const updatedCodes = [...diagnosisCodes];
+
+      if (updatedCodes.includes(code)) {
+        // Remove code if already selected
+        const index = updatedCodes.indexOf(code);
+        updatedCodes.splice(index, 1);
+      } else {
+        // Add code if not selected
+        updatedCodes.push(code);
+      }
+
+      setDiagnosisCodes(updatedCodes);
+    };
+
+
     const [error, setError] = useState<string>("")
     const [description, setDescription] = useState<string>("");
     const [date, setDate] = useState<string>("");
     const [specialist, setSpecialist] = useState<string>("");
-    const [diagnosisCodes, setDiagnosisCodes] = useState<string>("");
 
     // States specific to each entry type
     const [healthCheckRating, setHealthCheckRating] = useState<string>("");
@@ -46,7 +66,7 @@ const EntryForm: React.FC<{ patientId: string, type: string; callback: Function 
                 description,
                 date,
                 specialist,
-                diagnosisCodes: diagnosisCodes.replaceAll(" ", "").split(","),
+                diagnosisCodes: diagnosisCodes,
                 discharge: {
                     date: dischargeDate,
                     criteria: dischargeCriteria,
@@ -59,7 +79,7 @@ const EntryForm: React.FC<{ patientId: string, type: string; callback: Function 
                 description,
                 date,
                 specialist,
-                diagnosisCodes: diagnosisCodes.replaceAll(" ", "").split(","),
+                diagnosisCodes: diagnosisCodes,
                 employerName,
                 sickLeave: {
                     startDate: sickLeaveStartDate,
@@ -73,7 +93,7 @@ const EntryForm: React.FC<{ patientId: string, type: string; callback: Function 
                 description,
                 date,
                 specialist,
-                diagnosisCodes: diagnosisCodes.replaceAll(" ", "").split(","),
+                diagnosisCodes: diagnosisCodes,
                 healthCheckRating: Number(healthCheckRating),
             };
             break;
@@ -141,18 +161,13 @@ const EntryForm: React.FC<{ patientId: string, type: string; callback: Function 
         );
       case "HealthCheck":
         return (
-          //   <TextField
-          //     fullWidth
-          //     label="Health Check Rating"
-          //     variant="outlined"
-          //     value={healthCheckRating}
-          //     onChange={(e) => setHealthCheckRating(e.target.value)}
-          //   />
           <FormControl>
             <FormLabel>
               Health Check Rating
             </FormLabel>
-            <RadioGroup row defaultValue="1">
+            <RadioGroup row defaultValue="1"
+            value={healthCheckRating}
+            onChange={(e) => setHealthCheckRating(e.target.value)}>
               <FormControlLabel value="1" control={<Radio />} label="Healthy" />
               <FormControlLabel
                 value="2"
@@ -211,13 +226,28 @@ const EntryForm: React.FC<{ patientId: string, type: string; callback: Function 
         onChange={(e) => setSpecialist(e.target.value)}
       />
       {SpecificToEntry(type)}
-      <TextField
+      {/* <TextField
         fullWidth
         label="Diagnosis Codes"
         variant="outlined"
         value={diagnosisCodes}
         onChange={(e) => setDiagnosisCodes(e.target.value)}
-      />
+      /> */}
+      <FormGroup>
+        <p>Diagnosis Codes</p>
+        {diagnoses.map((diagnosis) => (
+          <FormControlLabel
+            key={diagnosis.code}
+            control={
+              <Checkbox
+                checked={diagnosisCodes.includes(diagnosis.code)}
+                onChange={() => handleDiagnosisCodeChange(diagnosis.code)}
+              />
+            }
+            label={`${diagnosis.code} - ${diagnosis.name}`}
+          />
+        ))}
+      </FormGroup>
       <Box
         display={"flex"}
         flexDirection={"row"}

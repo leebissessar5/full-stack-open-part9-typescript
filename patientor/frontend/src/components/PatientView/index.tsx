@@ -116,6 +116,7 @@ const PatientView = () => {
                 healthCheck: false,
               });
             }}
+            diagnoses={diagnoses}
           />
         )}
         {visible.hospital && (
@@ -128,6 +129,7 @@ const PatientView = () => {
                 hospital: false,
               });
             }}
+            diagnoses={diagnoses}
           />
         )}
         {visible.occupationalCheck && (
@@ -140,6 +142,7 @@ const PatientView = () => {
                 occupationalCheck: false,
               });
             }}
+            diagnoses={diagnoses}
           />
         )}
 
