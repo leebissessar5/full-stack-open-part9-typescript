@@ -1,7 +1,7 @@
 import express from 'express';
 import patientsService from '../services/patientsService';
 import { NonSensitivePatientEntry, Patient } from '../types';
-import toNewPatientEntry from '../utils';
+import { toNewPatientEntry } from '../utils';
 
 const router = express.Router();
 
@@ -22,6 +22,10 @@ router.post('/', (req, res) => {
     const addedEntry = patientsService.addEntry(newPatientEntry);
 
     res.json(addedEntry);
+});
+
+router.post('/:id/entries', (req, res) => {
+    res.json({...req.body});
 });
 
 export default router;

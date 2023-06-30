@@ -48,7 +48,7 @@ const EntryDetails: React.FC<{entry: Entry, diagnoses: Diagnosis[]}> = ({ entry,
             })}
         </ul>
         {SpecificToEntry(entry)}
-        <div>Diagnose by {entry.specialist}</div>
+        <div>Diagnosis by {entry.specialist}</div>
       </Box>
     );
 }

@@ -4,7 +4,7 @@ export interface Diagnose {
     latin?: string
 }
 
-interface BaseEntry {
+export interface BaseEntry {
     id: string;
     description: string;
     date: string;
@@ -20,7 +20,7 @@ export enum HealthCheckRating {
     "CriticalRisk" = 3
 }
 
-interface SickLeave {
+export interface SickLeave {
     startDate: string,
     endDate: string,
 }
@@ -36,7 +36,7 @@ interface OccupationalHealthcareEntry extends BaseEntry {
     sickLeave?: SickLeave;
 }
 
-interface Discharge {
+export interface Discharge {
     date: string;
     criteria: string;
 }

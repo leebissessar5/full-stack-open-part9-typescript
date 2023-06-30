@@ -1,4 +1,4 @@
-import toNewPatientEntry from "../src/utils";
+import { toNewPatientEntry }from "../src/utils";
 
 import { Patient, Gender } from '../src/types';
 
