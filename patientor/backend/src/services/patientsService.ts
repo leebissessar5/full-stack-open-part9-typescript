@@ -1,5 +1,5 @@
 import patientsData from '../../data/patients';
-import { Patient, NonSensitivePatientEntry, NewPatientEntry } from '../types';
+import { Patient, NonSensitivePatientEntry, NewPatientEntry, Entry, EntryWithoutId } from '../types';
 import { v1 as uuid } from 'uuid';
 
 
@@ -21,7 +21,7 @@ const getEntry = (id: string): Patient | undefined => {
     return patientsData.find(patient => patient.id === id);
 };
 
-const addEntry = (entry : NewPatientEntry) : Patient => {
+const addPatientEntry = (entry : NewPatientEntry) : Patient => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const newId: string = uuid();
     const newPatientEntry = {
@@ -33,9 +33,26 @@ const addEntry = (entry : NewPatientEntry) : Patient => {
     return newPatientEntry;
 };
 
+const addEntry = (patientId: string, entry: EntryWithoutId): Entry => {
+    const newId: string = uuid();
+    const newEntry = {
+        id: newId,
+        ...entry
+    };
+    const idx: number = patientsData.findIndex((patient) => patientId === patient.id);
+    if (idx === -1) {
+        throw Error("Patient not found");
+    }
+    else {
+        patientsData[idx].entries.push(newEntry);
+        return newEntry;
+    }
+};
+
 export default {
     getEntries,
     getNonSensitiveEntries,
+    addPatientEntry,
+    getEntry,
     addEntry,
-    getEntry
 };

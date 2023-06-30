@@ -1,7 +1,7 @@
 import express from 'express';
 import patientsService from '../services/patientsService';
 import { NonSensitivePatientEntry, Patient } from '../types';
-import { toNewPatientEntry } from '../utils';
+import { toNewEntry, toNewPatientEntry } from '../utils';
 
 const router = express.Router();
 
@@ -19,13 +19,16 @@ router.post('/', (req, res) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const newPatientEntry = toNewPatientEntry(req.body);
 
-    const addedEntry = patientsService.addEntry(newPatientEntry);
+    const addedEntry = patientsService.addPatientEntry(newPatientEntry);
 
     res.json(addedEntry);
 });
 
 router.post('/:id/entries', (req, res) => {
-    res.json({...req.body});
+    const newEntry = toNewEntry(req.body);
+    const addedEntry = patientsService.addEntry(req.params.id, newEntry);
+
+    res.json(addedEntry);
 });
 
 export default router;

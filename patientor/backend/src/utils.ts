@@ -182,8 +182,7 @@ export const toNewEntry = (object: unknown): EntryWithoutId => {
                     date: parseDate(object.date),
                     specialist: parseText(object.specialist),
                     discharge: parseDischarge(object.discharge),
-                    diagnosisCodes: ('diagnosisCodes' in object)? 
-                    parseDiagnosisCodes(object.diagnosisCodes) : undefined
+                    diagnosisCodes: parseDiagnosisCodes(object)
                 };
                 return newEntry;
             }
@@ -199,8 +198,7 @@ export const toNewEntry = (object: unknown): EntryWithoutId => {
                     specialist: parseText(object.specialist),
                     sickLeave: parseSickLeave(object.sickLeave),
                     employerName: parseText(object.employerName),
-                    diagnosisCodes: ('diagnosisCodes' in object)? 
-                    parseDiagnosisCodes(object.diagnosisCodes) : undefined
+                    diagnosisCodes: parseDiagnosisCodes(object)
                 };
                 return newEntry;
             }
@@ -215,8 +213,7 @@ export const toNewEntry = (object: unknown): EntryWithoutId => {
                     date: parseDate(object.date),
                     specialist: parseText(object.specialist),
                     healthCheckRating: parseHealthCheck(object.healthCheckRating),
-                    diagnosisCodes: ('diagnosisCodes' in object)? 
-                    parseDiagnosisCodes(object.diagnosisCodes) : undefined
+                    diagnosisCodes: parseDiagnosisCodes(object)
                 };
                 return newEntry;
             }
