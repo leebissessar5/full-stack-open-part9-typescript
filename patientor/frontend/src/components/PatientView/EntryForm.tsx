@@ -226,13 +226,6 @@ const EntryForm: React.FC<{ patientId: string, type: string; callback: Function,
         onChange={(e) => setSpecialist(e.target.value)}
       />
       {SpecificToEntry(type)}
-      {/* <TextField
-        fullWidth
-        label="Diagnosis Codes"
-        variant="outlined"
-        value={diagnosisCodes}
-        onChange={(e) => setDiagnosisCodes(e.target.value)}
-      /> */}
       <FormGroup>
         <p>Diagnosis Codes</p>
         {diagnoses.map((diagnosis) => (
