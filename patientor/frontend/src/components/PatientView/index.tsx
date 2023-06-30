@@ -27,20 +27,20 @@ const PatientView = () => {
    })
 
     useEffect(() => {
-    const fetchPatient = async () => {
-        const patient = await patientService.getOne(match?.params.id as string);
-        setPatient(patient);
-    };
-    const fetchDiagnoses = async () => {
-        const diagnoses = await diagnosisService.getAll();
-        setDiagnoses(diagnoses);
-    }
-    void fetchPatient();
-    void fetchDiagnoses();
+        const fetchPatient = async () => {
+            const patient = await patientService.getOne(match?.params.id as string);
+            setPatient(patient);
+        };
+        const fetchDiagnoses = async () => {
+            const diagnoses = await diagnosisService.getAll();
+            setDiagnoses(diagnoses);
+        }
+        void fetchPatient();
+        void fetchDiagnoses();
     }, [match]);
 
     if (!patient) {
-    return <div>Not found</div>;
+        return <div>Not found</div>;
     }
 
     // Define the icon component based on the patient's gender

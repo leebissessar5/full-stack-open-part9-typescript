@@ -82,13 +82,13 @@ const HealthCheckEntryDetails: React.FC<{ entry: HealthCheckEntry }> = ({ entry 
 
     const getFavoriteIconColor = (rating: Number): string => {
         switch (rating) {
-        case 0:
-            return "green";
         case 1:
-            return "yellow";
+            return "green";
         case 2:
-            return "orange";
+            return "yellow";
         case 3:
+            return "orange";
+        case 4:
             return "red";
         default:
             throw new Error(`Unhandled health check rating: ${rating}`);
