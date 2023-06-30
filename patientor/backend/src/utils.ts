@@ -46,6 +46,13 @@ const parseSpecialist = (specialist: unknown): string => {
     return specialist;
 };
 
+const parseCriteria = (dischargeCriteria: unknown): string => {
+    if (!dischargeCriteria || !isString(dischargeCriteria)) {
+        throw new Error('Missing info in criteria field');
+    }
+    return dischargeCriteria;
+};
+
 const parseDate = (date: unknown): string => {
     if (!date || !isString(date) || !isDate(date)) {
         throw new Error('Incorrect or missing date: ' + date);
@@ -103,7 +110,7 @@ const isHealthCheck = (param: number): param is HealthCheckRating => {
 
 const parseHealthCheck = (healthCheckRating: unknown): HealthCheckRating => {
     if (!healthCheckRating || !isNumber(healthCheckRating) || !isHealthCheck(healthCheckRating)) {
-        throw new Error('Incorrect or missing health check rating');
+        throw new Error(`Incorrect Health Rating: ${healthCheckRating}, should be in the range 1 - 4`);
     }
     return healthCheckRating;
 };
@@ -115,7 +122,7 @@ const parseDischarge = (discharge: unknown): Discharge => {
     }
     const newDischarge: Discharge = {
         date: parseDate(discharge.date),
-        criteria: parseName(discharge.criteria)
+        criteria: parseCriteria(discharge.criteria)
     };
     return newDischarge;
 };

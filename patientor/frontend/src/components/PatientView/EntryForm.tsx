@@ -66,13 +66,12 @@ const EntryForm: React.FC<{ patientId: string, type: string; callback: Function 
             };
             break;
         default:
-            throw new Error(
-            `Unhandled discriminated union member: ${JSON.stringify(type)}`
-            );
+            throw new Error(`Unhandled discriminated union member: ${JSON.stringify(type)}`);
         }
         try {
             await patientService.createEntry(patientId, entry);
             setError("");
+            callback();
         }
         catch (error) {
             if (error instanceof AxiosError) {

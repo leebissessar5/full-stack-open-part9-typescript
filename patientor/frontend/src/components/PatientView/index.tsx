@@ -37,7 +37,7 @@ const PatientView = () => {
         }
         void fetchPatient();
         void fetchDiagnoses();
-    }, [match]);
+    }, [match, patient]);
 
     if (!patient) {
         return <div>Not found</div>;
