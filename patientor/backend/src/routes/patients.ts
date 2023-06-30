@@ -25,10 +25,19 @@ router.post('/', (req, res) => {
 });
 
 router.post('/:id/entries', (req, res) => {
-    const newEntry = toNewEntry(req.body);
-    const addedEntry = patientsService.addEntry(req.params.id, newEntry);
+    try {
+        const newEntry = toNewEntry(req.body);
+        const addedEntry = patientsService.addEntry(req.params.id, newEntry);
 
-    res.json(addedEntry);
+        return res.json(addedEntry);
+    }
+    catch (error: unknown) {
+        if (error instanceof Error) {
+            return res.status(400).json({ error: error.message });
+        } else {
+            return res.status(400).json({ error: "Unknown error occurred" });
+        }
+    }
 });
 
 export default router;
