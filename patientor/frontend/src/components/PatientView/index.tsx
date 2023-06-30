@@ -108,6 +108,7 @@ const PatientView = () => {
         </div>
         {visible.healthCheck && (
           <EntryForm
+            patientId={patient.id}
             type="HealthCheck"
             callback={() => {
               setVisible({
@@ -119,6 +120,7 @@ const PatientView = () => {
         )}
         {visible.hospital && (
           <EntryForm
+            patientId={patient.id}
             type="Hospital"
             callback={() => {
               setVisible({
@@ -130,6 +132,7 @@ const PatientView = () => {
         )}
         {visible.occupationalCheck && (
           <EntryForm
+            patientId={patient.id}
             type="OccupationalHealthcare"
             callback={() => {
               setVisible({
